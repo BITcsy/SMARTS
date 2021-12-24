@@ -67,35 +67,35 @@ class SumTree(object):
         # then propagate the change through the tree // update whole tree
         while tree_index != 0:
             """
-                        Here we want to access the line above
-                        THE NUMBERS IN THIS TREE ARE THE INDEXES NOT THE PRIORITY VALUES
-                            0
-                           / \
-                          1   2
-                         / \ / \
-                        3  4 5  [6]
-                        If we are in leaf at index 6, we updated the priority score
-                        We need then to update index 2 node
-                        So tree_index = (tree_index - 1) // 2
-                        tree_index = (6-1)//2
-                        tree_index = 2 (because // round the result)
-                        """
+            Here we want to access the line above
+            THE NUMBERS IN THIS TREE ARE THE INDEXES NOT THE PRIORITY VALUES
+               0
+              / \\
+             1    2
+            / \  / \\
+            3  4 5  [6]
+            If we are in leaf at index 6, we updated the priority score
+            We need then to update index 2 node
+            So tree_index = (tree_index - 1) // 2
+            tree_index = (6-1)//2
+            tree_index = 2 (because // round the result)
+            """
             tree_index = (tree_index - 1) // 2
             self.tree[tree_index] += change
 
     def get_leaf(self, v):
         # here we get the leaf_index, priority value of that leaf and experience associated with that index
         """
-                        Tree structure and array storage:
-                        Tree index:
-                             0         -> storing priority sum
-                            / \
-                          1     2
-                         / \   / \
-                        3   4 5   6    -> storing priority for experiences
-                        Array type for storing:
-                        [0,1,2,3,4,5,6]
-                        """
+        Tree structure and array storage:
+        Tree index:
+            0         -> storing priority sum
+           / \\
+         1     2
+        / \   / \\
+        3  4 5   6    -> storing priority for experiences
+        Array type for storing:
+        [0,1,2,3,4,5,6]
+        """
         parent_index = 0
 
         while True:  # the while loop is faster than the method in the reference code
