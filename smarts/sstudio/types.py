@@ -223,7 +223,7 @@ class SocialAgentActor(Actor):
     """Additional keyword arguments to be passed to the constructed class overriding the
     existing registered arguments.
     """
-    initial_speed: float = None
+    initial_speed: Optional[float] = None
     """Set the initial speed, defaults to 0."""
 
 
@@ -259,7 +259,7 @@ class MapSpec:
     """If specified, the default distance between pre-generated Lane Points (Waypoints)."""
     default_lane_width: Optional[float] = None
     """If specified, the default width (in meters) of lanes on this map."""
-    builder_fn: Optional[MapBuilder] = get_road_map
+    builder_fn: MapBuilder = get_road_map
     """If specified, this should return an object derived from the RoadMap base class
     and a hash that uniquely identifies it (changes to the hash should signify
     that the map is different enough that map-related caches should be reloaded).
@@ -336,7 +336,7 @@ class RandomRoute:
 class Flow:
     """A route with an actor type emitted at a given rate."""
 
-    route: Route
+    route: Union[RandomRoute,Route]
     """The route for the actor to attempt to follow."""
     rate: float
     """Vehicles per hour."""
@@ -427,7 +427,7 @@ class TrapEntryTactic(EntryTactic):
     """The zone of the hijack area"""
     exclusion_prefixes: Tuple[str, ...] = tuple()
     """The prefixes of vehicles to avoid hijacking"""
-    default_entry_speed: float = None
+    default_entry_speed: Optional[float] = None
     """The speed that the vehicle starts at when defaulting to emitting"""
 
 
@@ -435,7 +435,7 @@ class TrapEntryTactic(EntryTactic):
 class Mission:
     """The descriptor for an actor's mission."""
 
-    route: Route
+    route: Union[RandomRoute, Route]
     """The route for the actor to attempt to follow."""
 
     via: Tuple[Via, ...] = ()
@@ -533,7 +533,7 @@ class MapZone(Zone):
     """
     length: float
     """The length of the geometry along the center of the lane. Also acceptable\\: 'max'"""
-    n_lanes: 2
+    n_lanes: int = 2
     """The number of lanes from right to left that this zone covers."""
 
     def to_geometry(self, road_map: RoadMap) -> Polygon:
@@ -658,7 +658,7 @@ class PositionalZone(Zone):
     size: Tuple[float, float]
     """The (length, width) dimensions of the zone."""
 
-    def to_geometry(self, road_map: RoadMap = None) -> Polygon:
+    def to_geometry(self, road_map: Optional[RoadMap] = None) -> Polygon:
         w, h = self.size
         p0 = (self.pos[0] - w / 2, self.pos[1] - h / 2)  # min
         p1 = (self.pos[0] + w / 2, self.pos[1] + h / 2)  # max
@@ -692,7 +692,7 @@ class Bubble:
     # If limit != None it will only allow that specified number of vehicles to be
     # hijacked. N.B. when actor = BoidAgentActor the lesser of the actor capacity
     # and bubble limit will be used.
-    limit: BubbleLimits = None
+    limit: Optional[BubbleLimits] = None
     """The maximum number of actors that could be captured."""
     exclusion_prefixes: Tuple[str, ...] = field(default_factory=tuple)
     """Used to exclude social actors from capture."""
@@ -702,7 +702,7 @@ class Bubble:
     which means it moves to follow the `follow_actor_id`'s vehicle. Offset is from the
     vehicle's center position to the bubble's center position.
     """
-    follow_offset: Tuple[float, float] = None
+    follow_offset: Optional[Tuple[float, float]] = None
     """Maintained offset to place the travelling bubble relative to the follow
     vehicle if it were facing north.
     """

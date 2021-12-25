@@ -763,7 +763,6 @@ class AckermannChassis(Chassis):
         )
         self._log.debug(
             f"wheel_states: {state_summary}\t vehicle speed: {self.speed:.2f}",
-            end="\r",
         )
 
     def _load_joints(self, bullet_id):
