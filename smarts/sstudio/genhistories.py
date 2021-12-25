@@ -47,7 +47,7 @@ DEFAULT_LANE_WIDTH = 3.7  # a typical US highway lane is 12ft ~= 3.7m wide
 
 
 class _TrajectoryDataset:
-    def __init__(self, dataset_spec, output):
+    def __init__(self, dataset_spec: Dict, output):
         self._log = logging.getLogger(self.__class__.__name__)
         self.check_dataset_spec(dataset_spec)
         self._output = output
@@ -254,7 +254,7 @@ class Interaction(_TrajectoryDataset):
         self._log.warning(f"unknown agent_type:  {agent_type}.")
         return 0
 
-    def column_val_in_row(self, row, col_name):
+    def column_val_in_row(self, row: Dict, col_name:str):
         row_name = self._col_map.get(col_name)
         if row_name:
             return row[row_name]
