@@ -78,7 +78,6 @@ class SMARTSNotSetupError(Exception):
 class SMARTS:
     _fixed_timestep_sec: float
     _rounder: Callable[[float], float]
-    _trap_manager: TrapManager
 
     def __init__(
         self,
@@ -151,6 +150,7 @@ class SMARTS:
         self._vehicle_states = []
 
         self._bubble_manager = None
+        self._trap_manager: TrapManager = None
 
         self._ground_bullet_id = None
         self._map_bb = None
