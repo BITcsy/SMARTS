@@ -403,7 +403,7 @@ class SMARTS:
         agent_id: str,
         agent_interface: AgentInterface,
         mission: Mission,
-    ) -> Vehicle:
+    ) -> None:
         self.agent_manager.add_ego_agent(agent_id, agent_interface, for_trap=False)
         vehicle = self.switch_control_to_agent(
             vehicle_id, agent_id, mission, recreate=False, is_hijacked=True
@@ -820,7 +820,7 @@ class SMARTS:
         for provider in self.providers:
             provider.reset()
 
-    def _step_providers(self, actions) -> List[VehicleState]:
+    def _step_providers(self, actions) -> ProviderState:
         accumulated_provider_state = ProviderState()
 
         def agent_controls_vehicles(agent_id):
@@ -1077,7 +1077,7 @@ class SMARTS:
             )
             self._setup_pybullet_ground_plane(self._bullet_client)
 
-    def _try_emit_envision_state(self, provider_state, obs, scores):
+    def _try_emit_envision_state(self, provider_state: ProviderState, obs, scores):
         if not self._envision:
             return
 
@@ -1148,9 +1148,7 @@ class SMARTS:
                     lane_ids[agent_id] = vehicle_obs.waypoint_paths[0][0].lane_id
             elif v.vehicle_id in self._vehicle_index.social_vehicle_ids():
                 # this is a social vehicle
-                veh_type = (
-                    v.vehicle_config_type if v.vehicle_config_type else v.vehicle_type
-                )
+                veh_type = v.vehicle_config_type if v.vehicle_config_type else v.vehicle_type
                 traffic[v.vehicle_id] = envision_types.TrafficActorState(
                     actor_type=envision_types.TrafficActorType.SocialVehicle,
                     vehicle_type=veh_type,
