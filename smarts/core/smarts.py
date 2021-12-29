@@ -22,7 +22,7 @@ import logging
 import os
 import warnings
 from collections import defaultdict
-from typing import Callable, List, Optional, Set
+from typing import Callable, Optional, Set
 
 import numpy as np
 
