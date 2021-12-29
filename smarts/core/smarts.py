@@ -19,11 +19,10 @@
 # THE SOFTWARE.
 import importlib.resources as pkg_resources
 import logging
-import math
 import os
 import warnings
 from collections import defaultdict
-from typing import List, Optional, Sequence
+from typing import Callable, List, Optional, Set
 
 import numpy as np
 
@@ -36,7 +35,7 @@ with warnings.catch_warnings():
     from sklearn.metrics.pairwise import euclidean_distances
 
 from smarts import VERSION
-from smarts.core.chassis import AckermannChassis, BoxChassis
+from smarts.core.chassis import BoxChassis
 from smarts.core.plan import Plan
 
 from . import models
@@ -77,6 +76,10 @@ class SMARTSNotSetupError(Exception):
 
 
 class SMARTS:
+    _fixed_timestep_sec: float
+    _rounder: Callable[[float], float]
+    _trap_manager: TrapManager
+
     def __init__(
         self,
         agent_interfaces,
@@ -93,8 +96,8 @@ class SMARTS:
         self._is_setup = False
         self._scenario: Scenario = None
         self._renderer = None
-        self._envision: EnvisionClient = envision
-        self._visdom: VisdomClient = visdom
+        self._envision: Optional[EnvisionClient] = envision
+        self._visdom: Optional[VisdomClient] = visdom
         self._traffic_sim = traffic_sim
         self._external_provider = None
 
@@ -148,7 +151,6 @@ class SMARTS:
         self._vehicle_states = []
 
         self._bubble_manager = None
-        self._trap_manager: TrapManager = None
 
         self._ground_bullet_id = None
         self._map_bb = None
@@ -330,9 +332,11 @@ class SMARTS:
 
         # Tell history provide to ignore vehicles if we have assigned mission to them
         self._traffic_history_provider.set_replaced_ids(
-            m.vehicle_spec.veh_id
-            for m in scenario.missions.values()
-            if m and m.vehicle_spec
+            [
+                m.vehicle_spec.veh_id
+                for m in scenario.missions.values()
+                if m and m.vehicle_spec
+            ]
         )
 
         self._total_sim_time += self._elapsed_sim_time
@@ -651,7 +655,7 @@ class SMARTS:
     def version(self) -> str:
         return VERSION
 
-    def teardown_agents_without_vehicles(self, agent_ids: Sequence):
+    def teardown_agents_without_vehicles(self, agent_ids: Set):
         """
         Teardown agents in the given list that have no vehicles registered as
         controlled-by or shadowed-by

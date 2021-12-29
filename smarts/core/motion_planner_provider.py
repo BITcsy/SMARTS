@@ -30,7 +30,7 @@ from .vehicle import VEHICLE_CONFIGS, VehicleState
 
 class MotionPlannerProvider(Provider):
     _poses: np.ndarray
-    _vehicle_id_to_index: Dict[str,int]
+    _vehicle_id_to_index: Dict[str, int]
     _vehicle_index_to_id: Dict[int, str]
 
     def __init__(self):
