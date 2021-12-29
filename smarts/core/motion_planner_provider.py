@@ -17,7 +17,7 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-from typing import Set
+from typing import Dict, Set
 
 import numpy as np
 
@@ -30,6 +30,8 @@ from .vehicle import VEHICLE_CONFIGS, VehicleState
 
 class MotionPlannerProvider(Provider):
     _poses: np.ndarray
+    _vehicle_id_to_index: Dict[str,int]
+    _vehicle_index_to_id: Dict[int, str]
 
     def __init__(self):
         self._is_setup = False

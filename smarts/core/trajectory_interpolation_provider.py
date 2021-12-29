@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 import math
-from typing import Dict, Sequence, Set
+from typing import Dict, Set, Tuple
 
 import numpy as np
 
@@ -125,7 +125,7 @@ class TrajectoryInterpolationProvider:
         return np_motion_state
 
     @staticmethod
-    def locate_motion_state(trajectory, time) -> np.ndarray:
+    def locate_motion_state(trajectory, time) -> Tuple[np.ndarray, np.ndarray]:
         end_index = 0
         for i, t in enumerate(trajectory[TrajectoryWithTime.TIME_INDEX]):
             if t > time:

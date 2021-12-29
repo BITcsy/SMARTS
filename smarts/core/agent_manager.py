@@ -19,7 +19,7 @@
 # THE SOFTWARE.
 
 import logging
-from typing import Dict, Set, Tuple
+from typing import Dict, Optional, Set, Tuple
 
 import cloudpickle
 
@@ -477,12 +477,12 @@ class AgentManager:
         self._social_agent_ids.add(agent_id)
         self._social_agent_data_models[agent_id] = agent_model
 
-    def teardown_ego_agents(self, filter_ids: Set = None):
+    def teardown_ego_agents(self, filter_ids: Optional[Set] = None):
         ids_ = self._teardown_agents_by_ids(self._ego_agent_ids, filter_ids)
         self._ego_agent_ids -= ids_
         return ids_
 
-    def teardown_social_agents(self, filter_ids: Set = None):
+    def teardown_social_agents(self, filter_ids: Optional[Set] = None):
         ids_ = self._teardown_agents_by_ids(self._social_agent_ids, filter_ids)
 
         for id_ in ids_:

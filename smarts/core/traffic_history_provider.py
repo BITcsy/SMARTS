@@ -81,7 +81,7 @@ class TrafficHistoryProvider(Provider):
         self._replaced_vehicle_ids = set()
 
     @property
-    def action_spaces(self) -> Set[ActionSpaceType]:
+    def action_spaces(self):
         return {}
 
     def sync(self, provider_state):

@@ -81,8 +81,8 @@ class SMARTS:
         self,
         agent_interfaces,
         traffic_sim,  # SumoTrafficSimulation
-        envision: EnvisionClient = None,
-        visdom: VisdomClient = None,
+        envision: Optional[EnvisionClient] = None,
+        visdom: Optional[VisdomClient] = None,
         fixed_timestep_sec: float = 0.1,
         reset_agents_only: bool = False,
         zoo_addrs=None,
