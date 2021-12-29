@@ -429,7 +429,10 @@ def _validate_entry_tactic(mission):
 
 
 def gen_traffic_histories(
-    scenario: str, histories_datasets, overwrite: bool, map_spec: Optional[types.MapSpec] = None
+    scenario: str,
+    histories_datasets,
+    overwrite: bool,
+    map_spec: Optional[types.MapSpec] = None,
 ):
     # For SUMO maps, we need to check if the map was shifted and translate the vehicle positions if so
     xy_offset = None

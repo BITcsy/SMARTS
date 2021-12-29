@@ -23,7 +23,9 @@ import sys
 from contextlib import contextmanager
 from io import UnsupportedOperation
 from time import time
+
 from IPython import get_ipython
+
 
 @contextmanager
 def timeit(name: str, logger):

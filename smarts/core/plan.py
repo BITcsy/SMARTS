@@ -248,7 +248,10 @@ class LapMission:
 
 class Plan:
     def __init__(
-        self, road_map: RoadMap, mission: Optional[Mission] = None, find_route: bool = True
+        self,
+        road_map: RoadMap,
+        mission: Optional[Mission] = None,
+        find_route: bool = True,
     ):
         self._road_map = road_map
         self._mission = mission

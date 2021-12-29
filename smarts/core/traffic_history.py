@@ -57,7 +57,9 @@ class TrafficHistory:
             self._db_cnxn.close()
             self._db_cnxn = None
 
-    def _query_val(self, result_type: Type[T], query: str, params: Tuple = ()) -> Optional[T]:
+    def _query_val(
+        self, result_type: Type[T], query: str, params: Tuple = ()
+    ) -> Optional[T]:
         with nullcontext(self._db_cnxn) if self._db_cnxn else closing(
             sqlite3.connect(self._db)
         ) as dbcnxn:

@@ -336,7 +336,7 @@ class RandomRoute:
 class Flow:
     """A route with an actor type emitted at a given rate."""
 
-    route: Union[RandomRoute,Route]
+    route: Union[RandomRoute, Route]
     """The route for the actor to attempt to follow."""
     rate: float
     """Vehicles per hour."""
