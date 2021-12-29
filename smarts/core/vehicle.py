@@ -24,7 +24,8 @@ from dataclasses import dataclass
 from functools import lru_cache
 
 import numpy as np
-import yaml
+
+from envision.types import VehicleType
 
 from . import models
 from .chassis import AckermannChassis, BoxChassis, Chassis
@@ -51,7 +52,7 @@ class VehicleState:
     vehicle_id: str
     pose: Pose
     dimensions: Dimensions
-    vehicle_type: str = None
+    vehicle_type: VehicleType = None
     vehicle_config_type: str = None  # key into VEHICLE_CONFIGS
     updated: bool = False
     speed: float = 0
@@ -75,7 +76,7 @@ class VehicleState:
 
 @dataclass(frozen=True)
 class VehicleConfig:
-    vehicle_type: str
+    vehicle_type: VehicleType
     color: tuple
     dimensions: Dimensions
     glb_model: str
@@ -307,7 +308,7 @@ class Vehicle:
         ]
 
     @property
-    def vehicle_type(self):
+    def vehicle_type(self) -> VehicleType:
         return VEHICLE_CONFIGS[self._vehicle_config_type].vehicle_type
 
     @staticmethod

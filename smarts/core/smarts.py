@@ -1148,7 +1148,9 @@ class SMARTS:
                     lane_ids[agent_id] = vehicle_obs.waypoint_paths[0][0].lane_id
             elif v.vehicle_id in self._vehicle_index.social_vehicle_ids():
                 # this is a social vehicle
-                veh_type = v.vehicle_config_type if v.vehicle_config_type else v.vehicle_type
+                veh_type = (
+                    v.vehicle_config_type if v.vehicle_config_type else v.vehicle_type
+                )
                 traffic[v.vehicle_id] = envision_types.TrafficActorState(
                     actor_type=envision_types.TrafficActorType.SocialVehicle,
                     vehicle_type=veh_type,
